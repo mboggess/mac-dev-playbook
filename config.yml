@@ -46,8 +46,6 @@ homebrew_installed_packages:
   - adwaita-icon-theme
   - atk
   - bash
-  - bosh-cli
-  - byobu
   - cairo
   - carthage
   - coreutils
@@ -118,17 +116,14 @@ homebrew_cask_appdir: /Applications
 homebrew_cask_apps:
   - chromedriver
   - docker
-  - dropbox
   - firefox
   - google-chrome
   - handbrake
   - licecap
   - limechat
-  - macvim
   - sequel-pro
   - skitch
   - slack
-  - sublime-text
   - transmit
   - vagrant
   - java
