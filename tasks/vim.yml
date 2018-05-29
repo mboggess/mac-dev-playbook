@@ -1,0 +1,13 @@
+---
+- name: Ensure repo cloned from github
+  git:
+    repo: https://github.com/amix/vimrc.git
+    dest: "{{ lookup('env', 'HOME') }}/.vim_runtime"
+    clone: yes
+    depth: 1
+
+- name: Install Awesome vimrc file
+  shell: install_awesome_vimrc.sh
+  args:
+      executable: /bin/bash
+      chdir: "{{ lookup('env', 'HOME') }}/.vim_runtime"
