@@ -21,6 +21,29 @@ else
     fi
 fi
 
+# install homebrew
+if [[ ! -d /usr/local/homebrew ]]; then
+    echo "[+] Installing homebrew"
+    mkdir /usr/local/Homebrew
+    if [ $? != 0 ]; then
+        echo "[-] Failed to make homebrew directory"
+        exit 1
+    else
+        echo "[+] Created homebrew directory"
+    fi
+
+    cd /usr/local/Homebrew
+    curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
+    if [ $? != 0 ]; then
+        echo "[-] Failed to retrieve and unpack homebrew"
+        exit 1
+    else
+        echo "[+] Retrieved and unpacked homebrew"
+    fi
+else
+    "[+] homebrew exists"
+fi
+
 # install pip
 if [[ $WHICH_PIP == '' ]]; then
     echo "[+] Installing pip"
