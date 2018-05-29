@@ -1,0 +1,19 @@
+---
+- name: Ensure bash configs exist
+  copy:
+      src: "{{ item }}"
+      dest: "{{ lookup('env', 'HOME') }}"
+      mode: u=rwx,g=rx,o=rx
+      user: "{{ ansible_user_id }}"
+  with_fileglob:
+    - files/bash_configs/*
+
+- name: Ensure other configs exist
+  copy:
+      src: "{{ item }}"
+      dest: "{{ lookup('env', 'HOME') }}"
+      mode: u=rwx,g=rx,o=rx
+      user: "{{ ansible_user_id }}"
+  with_fileglob:
+    - files/other_configs/*
+

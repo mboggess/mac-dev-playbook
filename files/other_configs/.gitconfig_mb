@@ -1,0 +1,29 @@
+[user]
+    name = Megan Boggess
+    email = m.boggess@elsevier.com
+[core]
+	autocrlf = input
+	trustctime = false
+	editor = vim
+[alias]
+	unstage = reset HEAD --
+	uncommit = reset --soft HEAD^
+	find = "log --color -p -S"
+	stat = "status -s"
+    gr = "log --full-history --decorate=short --all --color --graph"
+	gru = "log --full-history --decorate=short --all --color --graph @{upstream}^.."
+	lg = "log --oneline --decorate=short --abbrev-commit --all --color --graph"
+	lgu = "log --oneline --decorate=short --abbrev-commit --all --color --graph @{upstream}^.."
+	log1 = "log --oneline --decorate=short"
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+	ui = auto
+[push]
+	default = tracking
+[branch]
+	autosetuprebase = always
+[include]
+	# requires git v1.7.10+
