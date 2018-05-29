@@ -2,6 +2,9 @@
     name = Megan Boggess
     email = m.boggess@elsevier.com
 [alias]
+        # Undo a 'git commit'
+        uncommit = reset --soft HEAD^
+
         # Undo a 'git add'
         unstage = reset HEAD --
 
