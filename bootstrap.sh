@@ -103,4 +103,38 @@ else
     echo "[+] Ansible config file exists"
 fi
 
+# clone ansible mac config repo
+if [ ! -d $HOME/mac-dev-playbook ]; then
+    echo "[+] Cloning ansible mac config repo"
+    git clone https://github.com/mboggess/mac-dev-playbook.git
+    if [ $? != 0 ]; then
+        echo "[-] Failed to clone ansible mac config repo"
+        exit 1
+    else
+        echo "[+] Cloned ansible mac config repo"
+    fi
+else
+    echo "[+] Ansible mac config repo exists"
+fi
+
+# install required ansible roles
+echo "[+] Installing ansible roles"
+ansible-galaxy install -r requirements.yml
+if [ $? != 0 ]; then
+    echo "[-] Failed to install ansible roles"
+    exit 1
+else
+    echo "[+] Installed ansible roles"
+fi
+
+# run ansible config playbook
+echo "[+] Running ansible config playbook"
+ansible-playbook main.yml -i inventory -K
+if [ $? != 0 ]; then
+    echo "[-] Ansible config playbook failed"
+    exit 1
+else
+    echo "[+] Ansible config playbook succeeded"
+fi
+
 echo "[+][+][+] BOOTSTRAP SUCCESSFUL!"
