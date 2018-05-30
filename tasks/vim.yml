@@ -6,8 +6,12 @@
     clone: yes
     depth: 1
 
+- name: Ensure awesome script is executable
+  file:
+      dest: "{{ lookup('env', 'HOME') }}/.vim_runtime/install_awesome_vimrc.sh"
+      mode: u=rwx,g=rw,o=rw
+
 - name: Install Awesome vimrc file
-  shell: install_awesome_vimrc.sh
+  shell: "{{ lookup('env', 'HOME') }}/.vim_runtime/install_awesome_vimrc.sh"
   args:
       executable: /bin/bash
-      chdir: "{{ lookup('env', 'HOME') }}/.vim_runtime"
