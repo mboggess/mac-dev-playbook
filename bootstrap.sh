@@ -1,7 +1,8 @@
-#!/usr/local/bin/bash
+#!/bin/bash
 
 ANSIBLE_GLOBAL_DIR="/etc/ansible"
 XCODE_SELECT_P=$(xcode-select -p)
+WHICH_BREW=$(which brew)
 WHICH_PIP=$(which pip)
 WHICH_ANSIBLE=$(which ansible)
 
@@ -22,32 +23,23 @@ else
 fi
 
 # install homebrew
-if [[ ! -d /usr/local/homebrew ]]; then
+if [[ $WHICH_BREW == '' ]]; then
     echo "[+] Installing homebrew"
-    mkdir /usr/local/Homebrew
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     if [ $? != 0 ]; then
-        echo "[-] Failed to make homebrew directory"
+        echo "[-] Failed to retrieve and install homebrew"
         exit 1
     else
-        echo "[+] Created homebrew directory"
-    fi
-
-    cd /usr/local/Homebrew
-    curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
-    if [ $? != 0 ]; then
-        echo "[-] Failed to retrieve and unpack homebrew"
-        exit 1
-    else
-        echo "[+] Retrieved and unpacked homebrew"
+        echo "[+] Retrieved and installed homebrew"
     fi
 else
-    "[+] homebrew exists"
+    echo "[+] homebrew exists"
 fi
 
 # install pip
 if [[ $WHICH_PIP == '' ]]; then
     echo "[+] Installing pip"
-    easy_install –user pip
+    sudo easy_install pip
     if [ $? != 0 ]; then
         echo "[-] Failed to install pip"
         exit 1
@@ -126,23 +118,9 @@ else
     echo "[+] Ansible config file exists"
 fi
 
-# clone ansible mac config repo
-if [ ! -d $HOME/mac-dev-playbook ]; then
-    echo "[+] Cloning ansible mac config repo"
-    git clone https://github.com/mboggess/mac-dev-playbook.git
-    if [ $? != 0 ]; then
-        echo "[-] Failed to clone ansible mac config repo"
-        exit 1
-    else
-        echo "[+] Cloned ansible mac config repo"
-    fi
-else
-    echo "[+] Ansible mac config repo exists"
-fi
-
 # install required ansible roles
 echo "[+] Installing ansible roles"
-ansible-galaxy install -r requirements.yml
+ansible-galaxy install -r requirements.yml --ignore-errors --ignore-certs
 if [ $? != 0 ]; then
     echo "[-] Failed to install ansible roles"
     exit 1
@@ -152,7 +130,7 @@ fi
 
 # run ansible config playbook
 echo "[+] Running ansible config playbook"
-ansible-playbook main.yml -i inventory -K
+ansible-playbook main.yml -i inventory -K --limit @/Users/boggessm/mac-dev-playbook/main.retry
 if [ $? != 0 ]; then
     echo "[-] Ansible config playbook failed"
     exit 1
