@@ -1,0 +1,9 @@
+---
+- name: Unpack zip files of kept directories
+  unarchive:
+      src: "{{ item }}"
+      dest: "{{ lookup('env', 'HOME') }}"
+      keep_newer: yes
+  with_fileglob:
+    - files/zips/*
+
