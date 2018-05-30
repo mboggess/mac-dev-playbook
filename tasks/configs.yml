@@ -4,16 +4,16 @@
       src: "{{ item }}"
       dest: "{{ lookup('env', 'HOME') }}"
       mode: u=rwx,g=rx,o=rx
-      user: "{{ ansible_user_id }}"
+      owner: "{{ ansible_user_id }}"
   with_fileglob:
-    - files/bash_configs/*
+    - files/bash_configs/.bash*
 
 - name: Ensure other configs exist
   copy:
       src: "{{ item }}"
       dest: "{{ lookup('env', 'HOME') }}"
       mode: u=rwx,g=rx,o=rx
-      user: "{{ ansible_user_id }}"
+      owner: "{{ ansible_user_id }}"
   with_fileglob:
-    - files/other_configs/*
+    - files/other_configs/.*
 
